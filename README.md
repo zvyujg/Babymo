@@ -1,24 +1,24 @@
-# README
+# Helios
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## サイト概要
+### サイトテーマ
+命が宿る瞬間、子供が生まれる瞬間とはとても大事で尊いものです。
+その記録を残し、共有するSNSがあればいいなと考えました。
+育児の情報収集や年に一度の誕生日をお祝いするアイディアなどを共有する場としてのSNSを選択しました。
 
-Things you may want to cover:
+### テーマを選んだ理由
+現在SNSを使用し子育てに関する情報を取集する方が多いと思っております。
+実際にSNSを使用する方の7割の方が正確な情報の判別がつかないと下記の記事で記載されておりました。
+子育てをしている方や子育てが終わった方専用のSNSがあれば、より正確な情報が集まるのではないかと考えました。
 
-* Ruby version
+https://prtimes.jp/main/html/rd/p/000000026.000029931.html
 
-* System dependencies
 
-* Configuration
+### ターゲットユーザ
+子供がいる家庭
 
-* Database creation
+### 主な利用シーン
+・地域の年齢に合わせた遊び場所を検索したいとき
+・お家で誕生日をお祝いしたい時の参考材料
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## 設計書
