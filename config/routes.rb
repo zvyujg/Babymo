@@ -1,18 +1,22 @@
 Rails.application.routes.draw do
-  devise_for :admins, controllers: {
-  sessions: 'admin/sessions'
-}
-  
-  
-  devise_for :users, :controllers => {
-    registrations: "public/registrations",
-    sessions: "public/sessions"
-  }
-  devise_scope :user do
-    post 'users/guest_sign_in', to: 'public/sessions#guest_sign_in'
+
+  # アプリケーション
+  scope module: :public do
+    root 'homes#top'
   end
   
-  get 'homes/top'
-  root to: "home#top"
+  
+  
+# 管理者
+  namespace :admin do
+    scope module: :admins do
+      devise_for :admins
+    end
+    root 'users#top'
+    resources :users, only: [:index, :show, :update, :destroy]
+    resources :articles, only: [:index, :show, :update, :destroy]
+    resources :comments, only: [:index, :update, :destroy]
+    resources :tags, only: [:index, :update, :destroy]
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
