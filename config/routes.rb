@@ -1,11 +1,23 @@
 Rails.application.routes.draw do
 
   # アプリケーション
-  scope module: :public do
+  
     root 'homes#top'
+
+  namespace :public do
+    scope module: :users do
+      
+    end
+    get 'users/welcome' => 'users#welcome', as: 'welcome'
+    get 'articles/index' => 'articles#index', as: 'articles'
+    get 'articles/tipcorn' => 'articles#tipcorn', as: 'tipcorn'
+    resources :users, only: [:show, :edit, :update]
+    resources :relations, only: [:create, :destroy]
+    resources :favorites, only: [:create, :destroy]
+      resources :articles do
+        resources :comments, only: [:create, :destroy]
+      end
   end
-  
-  
   
 # 管理者
   namespace :admin do
