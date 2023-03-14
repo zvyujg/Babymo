@@ -1,0 +1,7 @@
+<h1>フォロー一覧</h1>
+<% @users.each do |user| %>
+  <%= link_to user_path(user) do %>
+    <%= user.name %>
+    <%= image_tag user.get_profile_image %>
+  <% end %>
+<% end %>

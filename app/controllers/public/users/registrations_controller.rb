@@ -3,6 +3,10 @@
 class Public::Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+  
+  def after_sign_up_path_for(resource)
+    user_path(current_user) # 遷移したい画面先
+  end
 
   # GET /resource/sign_up
   # def new
@@ -51,6 +55,7 @@ class Public::Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
+ 
   # def after_sign_up_path_for(resource)
   #   super(resource)
   # end

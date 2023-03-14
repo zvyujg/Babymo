@@ -1,4 +1,14 @@
+<div class="card mx-auto" style="max-width: 700px;">
+          <%= image_tag "logotop.jpg", alt: "...", height: "400px", width: "700px"  %>
+          <div class="card-img-overlay">
+            <p class="text-brown">
+          </div>
+        </div>
+<div style="text-align: center">
 <h1>Heliosへようこそ！</h1>
+<% unless user_signed_in? || admin_signed_in? %>
 <p>登録済の方は<%= link_to "ログイン", new_user_session_path %>へ</p>
 <p>登録せずにログインしたい方はゲストログインへ</p>
 <p>登録がまだの方は<%= link_to "新規登録", new_user_registration_path %>へ</p>
+<% end %>
+</div>

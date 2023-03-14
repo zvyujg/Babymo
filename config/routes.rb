@@ -1,34 +1,56 @@
-Rails.application.routes.draw do
-
-  # アプリケーション
+  Rails.application.routes.draw do
   
-    root 'homes#top'
-
-  namespace :public do
-    scope module: :users do
+  devise_for :admins, controllers: {
+   sessions: 'admin/sessions'
+  }
+  
+  devise_for :users, :controllers => {
+      registrations: "public/users/registrations",
+      sessions: "public/users/sessions"
+  }
+  devise_scope :user do
+    post 'users/guest_sign_in', to: 'public/sessions#guest_sign_in'
+  end
+  
+  get 'homes/top'
+  root to: "homes#top"
+  get    '/login',   to: 'sessions#new'
+  post   '/login',   to: 'sessions#create'
+  delete '/logout',  to: 'sessions#destroy'
+  
+ 
+  
+  scope module: :public do
+    
+    resources :follows, only: [:followers, :followings]
+    resources :articles
+    resources :questions, only: [:new, :create, :index, :show, :edit, :update, :destroy] do
+       resources :question_comments, only: [:create, :destroy]
+    end
+    resources :post_images, only: [:new, :create, :index, :show, :edit, :update, :destroy] do
+       resources :post_comments, only: [:create, :destroy]
+       resource :favorites, only: [:create, :destroy]
+       
+    end
+    resources :users, only: [:index, :show, :edit, :update, :unsubscribe] do
+      resource :follows, only: [:create, :destroy]
+      get 'followings' => 'follows#followings', as: 'followings'
+      get 'followers' => 'follows#followers', as: 'followers'
+      member do
+        get :favorites
       
-    end
-    get 'users/welcome' => 'users#welcome', as: 'welcome'
-    get 'articles/index' => 'articles#index', as: 'articles'
-    get 'articles/tipcorn' => 'articles#tipcorn', as: 'tipcorn'
-    resources :users, only: [:show, :edit, :update]
-    resources :relations, only: [:create, :destroy]
-    resources :favorites, only: [:create, :destroy]
-      resources :articles do
-        resources :comments, only: [:create, :destroy]
-      end
+     end  
+     
+    end  
+    
+      # 退会確認画面
+    get '/users/:id/unsubscribe' => 'users#unsubscribe', as: 'unsubscribe'
+     # 論理削除用のルーティング
+    patch '/users/:id/withdraw' => 'users#withdraw', as: 'withdraw'
+    
+    
   end
   
-# 管理者
-  namespace :admin do
-    scope module: :admins do
-      devise_for :admins
-    end
-    root 'users#top'
-    resources :users, only: [:index, :show, :update, :destroy]
-    resources :articles, only: [:index, :show, :update, :destroy]
-    resources :comments, only: [:index, :update, :destroy]
-    resources :tags, only: [:index, :update, :destroy]
-  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  
 end
