@@ -1,1 +1,19 @@
-<h1>テスト</h1>
+<div class="container">
+<h1>ユーザー一覧</h1>
+<%= form_with url: users_path, method: :get, local: true do |f| %>
+  <%= f.text_field :search %>
+  <%= f.submit "検索", name: nil %>
+<% end %>
+<% @users.each do |user| %>
+  <%= image_tag user.get_profile_image(100, 100) %>
+  <%= link_to user.name, user_path(user.id) %>
+  <% if admin_signed_in? %>
+    <% if user.is_deleted == false %>
+      有効
+    <% else %>
+    退会
+    <% end %>
+  <% end %>
+  <hr>
+<% end %>
+</div>

@@ -1,2 +1,0 @@
-class ArtcleTag < ApplicationRecord
-end

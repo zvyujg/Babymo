@@ -5,17 +5,24 @@ class Public::ArticlesController < ApplicationController
   # impressionist :actions => [:show]
 
   def index
-    @articles = Artcle.all
+    @articles = Article.all
   end
   
   def new
-    @article = Artcle.new
+    @article = Article.new
   end
 
   def show
   end
 
+  # 以下を追加
   def create
+    # １.&2. データを受け取り新規登録するためのインスタンス作成
+    @article = Article.new(article_params)
+    # 3. データをデータベースに保存するためのsaveメソッド実行
+    @article.save
+    # 4. トップ画面へリダイレクト
+    redirect_to root_path
   end
 
   def edit
@@ -29,7 +36,7 @@ class Public::ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:user_id, :title, :content, :image, :rate, :difficulty,  :practicality, :speed, :accent)
+    params.require(:article).permit(:user_id, :title, :content, :rate, :difficulty, :practicality, :speed, :accent, images: [])
   end
 
   # def posted_user!

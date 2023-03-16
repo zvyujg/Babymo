@@ -1,1 +1,15 @@
-<h1>テスト</h1>
+<div class="container">
+  <h1>投稿一覧</h1>
+
+  <% @articles.each do |article| %>
+  
+    <h2>タイトル</h2>
+    <span><%= article.title %></span>
+    
+    <h3>画像</h3>
+    <% article.images.each do |image| %>
+      <%= image_tag image, class: 'img-fluid' %>
+    <% end %>
+    
+  <% end %>
+</div>

@@ -1,3 +1,0 @@
-<%= form_with model:current_public_user.follow_to.find_by(followed_id: user.id), url:public_relation_path ,method: :delete do |f| %>
-  <button class="sub-btn">フォロー中</button>
-<% end %>

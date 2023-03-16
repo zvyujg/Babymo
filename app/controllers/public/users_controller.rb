@@ -6,38 +6,37 @@ class Public::UsersController < ApplicationController
   end
   
   def index 
+    @users = User.where(is_deleted: false).where(name: params[:search])
+    
   end
-
-  def welcome
-    @user = current_learner_user
-    @languages = Language.all
-  end
-
+  
   def show
     @user = User.find(params[:id])
     @follows = @user.following
     @followers = @user.followers
+    favorite_articles = @user.favorite_articles
+    @articles = @user.favorite_articles.page(params[:page])
   end
-
+  
   def edit
-    @user = User.find(params[:id])
-    @languages = Language.all
+     @user = User.find(params[:id])
   end
-
+  
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
-      if params[:welcome]
-        redirect_to public_articles_path(welcome:"")
-      else
-        redirect_to public_user_path(current_public_user)
-      end
-    else
-      @languages = Language.all
-      flash.now[:warning] = '入力をご確認ください'
-      render :edit
-    end
+    @user.update(user_params)
+    redirect_to user_path(@user)
   end
+  
+  def withdraw
+    @user = User.find(params[:id])
+    # is_deletedカラムをtrueに変更することにより削除フラグを立てる
+    @user.update(is_deleted: true)
+    reset_session
+    flash[:notice] = "退会処理を実行いたしました"
+    redirect_to root_path
+  end
+
 
   private
 
@@ -47,7 +46,7 @@ class Public::UsersController < ApplicationController
 
   def correct_user!
     user = User.find(params[:id])
-    unless current_public_user.id == user.id
+    unless current_user.id == user.id
       redirect_to root_path
     end
   end

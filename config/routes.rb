@@ -1,15 +1,17 @@
   Rails.application.routes.draw do
   
   devise_for :admins, controllers: {
-   sessions: 'admin/sessions'
+   sessions: 'admin/admins/sessions'
   }
   
   devise_for :users, :controllers => {
       registrations: "public/users/registrations",
       sessions: "public/users/sessions"
   }
+  
+  
   devise_scope :user do
-    post 'users/guest_sign_in', to: 'public/sessions#guest_sign_in'
+    post 'users/guest_sign_in', to: 'public/users/sessions#guest_sign_in'
   end
   
   get 'homes/top'
@@ -17,6 +19,7 @@
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
+  get 'articles/index'
   
  
   
@@ -27,19 +30,13 @@
     resources :questions, only: [:new, :create, :index, :show, :edit, :update, :destroy] do
        resources :question_comments, only: [:create, :destroy]
     end
-    resources :post_images, only: [:new, :create, :index, :show, :edit, :update, :destroy] do
-       resources :post_comments, only: [:create, :destroy]
-       resource :favorites, only: [:create, :destroy]
-       
-    end
     resources :users, only: [:index, :show, :edit, :update, :unsubscribe] do
       resource :follows, only: [:create, :destroy]
       get 'followings' => 'follows#followings', as: 'followings'
       get 'followers' => 'follows#followers', as: 'followers'
       member do
         get :favorites
-      
-     end  
+      end  
      
     end  
     
@@ -48,8 +45,11 @@
      # 論理削除用のルーティング
     patch '/users/:id/withdraw' => 'users#withdraw', as: 'withdraw'
     
-    
   end
+  
+    scope module: :admin do
+        get 'users/top'
+      end
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   
