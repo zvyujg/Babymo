@@ -11,5 +11,12 @@
       <%= image_tag image, class: 'img-fluid' %>
     <% end %>
     
+    <% if article.user_id == current_user.id %>
+    <%= link_to "編集", article_path(article.id) %>
+    <% end %>　　　
+    <% if article.user_id == current_user.id %>
+    <%= link_to "削除", article_path(article.id), method: :delete %>
+    <% end %>
+    
   <% end %>
 </div>

@@ -19,24 +19,35 @@ class Public::ArticlesController < ApplicationController
   def create
     # １.&2. データを受け取り新規登録するためのインスタンス作成
     @article = Article.new(article_params)
+    @article.user_id = current_user.id
     # 3. データをデータベースに保存するためのsaveメソッド実行
-    @article.save
+    @article.save!
     # 4. トップ画面へリダイレクト
     redirect_to root_path
   end
 
   def edit
+    @article = Article.find(params[:id])
+  end
+  
+  private
+  def article_params
+    params.require(:article).permit(:title, :body)
   end
 
   
 
   def destroy
+    @article = Article.find(params[:id])
+    #post_image = 削除するPostImageレコードを取得
+    @article.destroy
+    redirect_to articles_path
   end
 
   private
 
   def article_params
-    params.require(:article).permit(:user_id, :title, :content, :rate, :difficulty, :practicality, :speed, :accent, images: [])
+    params.require(:article).permit(:user_id, :title, :content, :rate, :speed, :accent, images: [])
   end
 
   # def posted_user!
