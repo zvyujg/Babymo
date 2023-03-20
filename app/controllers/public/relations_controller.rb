@@ -1,6 +1,15 @@
 class Public::RelationsController < ApplicationController
-  before_action :authenticate_learner_user!
-
+  # フォロー一覧
+  def followings
+    user = User.find(params[:user_id])
+    @users = user.following
+  end
+  # フォロワー一覧
+  def followers
+    user = User.find(params[:user_id])
+    @users = user.followers
+  end
+  
   def create
     user = User.find(params[:followed_id])
     current_public_user.follow(user)

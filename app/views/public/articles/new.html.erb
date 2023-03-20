@@ -1,4 +1,8 @@
 <div class="container">
+  <div class= "row">
+    <div class="col-lg-2 col-md-2">
+    </div>
+    <div class="col-xs-12 col-lg-8 col-md-8 col-sm-12">
 <h1>新規投稿</h1>
 
 <%= form_with model: @article, url: '/articles', method: :post do |f| %>
@@ -14,4 +18,5 @@
   <%= f.submit '投稿' %>
   
 <% end %>
+  </div>
 </div>

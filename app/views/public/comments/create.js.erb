@@ -1,0 +1,4 @@
+$("#comment_render").html("");
+$("#comment_render").html("<%= j(render 'public/articles/comment', {comments: @comments, new_comment: @new_comment, article: @article}) %>");
+$('textarea').val('');
+$('input[type="text"]').val('');

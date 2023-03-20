@@ -5,7 +5,7 @@ class Public::ArticlesController < ApplicationController
   # impressionist :actions => [:show]
 
   def index
-    @articles = Article.all
+    @articles = Article.all.page(params[:page]).per(10)
   end
   
   def new
@@ -13,6 +13,9 @@ class Public::ArticlesController < ApplicationController
   end
 
   def show
+    @article = Article.find(params[:id])
+    @comments = @article.comments  #投稿詳細に関連付けてあるコメントを全取得
+    @comment = current_user.comments.new  #投稿詳細画面でコメントの投稿を行うので、formのパラメータ用にCommentオブジェクトを取得
   end
 
   # 以下を追加
@@ -30,13 +33,6 @@ class Public::ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   end
   
-  private
-  def article_params
-    params.require(:article).permit(:title, :body)
-  end
-
-  
-
   def destroy
     @article = Article.find(params[:id])
     #post_image = 削除するPostImageレコードを取得

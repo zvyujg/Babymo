@@ -21,6 +21,8 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_articles, through: :favorites, source: :article
+  has_many :article_tags,dependent: :destroy
+  has_many :tags,through: :article_tags
   
   def get_profile_image(width, height)
     unless image.attached?
@@ -34,6 +36,16 @@ class User < ApplicationRecord
   #   super && (is_deleted == false)
   # end
   
+  # フォローしたときの処理
+  def follow(user_id)
+    relationships.create(followed_id: user_id)
+  end
+  # フォローを外すときの処理
+  def unfollow(user_id)
+    relationships.find_by(followed_id: user_id).destroy
+  end
+  # フォローしているか判定
   def following?(user)
+    followings.include?(user)
   end
 end

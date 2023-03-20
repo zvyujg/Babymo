@@ -1,14 +1,12 @@
 class Public::CommentsController < ApplicationController
-  before_action :authenticate_learner_user!
-
+  
   def create
-    comment = current_public_user.comments.new(comment_params)
+    comment = current_user.comments.new(comment_params)
     @article = Article.find(params[:article_id])
     comment.article_id = @article.id
-    comment.score = Analyze.get_data(comment.content)
+    #comment.score = Analyze.get_data(comment.content)
     if comment.save
-      @new_comment = Comment.new
-      @comments = @article.comments.order(created_at: "desc")
+      redirect_to article_path(@article.id)
     else
       flash.now[:warning] = "入力をご確認ください"
       redirect_to request.referer
