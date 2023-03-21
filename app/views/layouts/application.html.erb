@@ -22,6 +22,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
+            
             <% if user_signed_in? %>
             <li class="nav-item">
               <%= link_to 'ユーザー一覧', users_path, class: 'nav-link text-dark' %>
@@ -36,18 +37,34 @@
               <%= link_to 'マイページ', user_path(current_user.id), class: 'nav-link text-dark' %>
             </li>
             <li class="nav-item">
-              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
+              <%= link_to "ログアウト", admin_destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
             </li>
+            <div class="post_search">
+              <%= form_with url: articles_path, method: :get, local: true do |f| %>
+                <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
+                <%= f.button :type => "submit" do %>
+                  <i class="fas fa-search"></i>
+                <% end %>
+              <% end %>
+            </div>
             <% elsif admin_signed_in? %>
             <li class="nav-item">
-              <%= link_to 'ユーザ一覧', users_path, class: 'nav-link text-dark' %>
+              <%= link_to 'ユーザ一覧', admin_users_path, class: 'nav-link text-dark' %>
             </li>
             <li class="nav-item">
-              <%= link_to '質問一覧', questions_path, class: 'nav-link text-dark' %>
+              <%= link_to '投稿一覧', admin_articles_path, class: 'nav-link text-dark' %>
             </li>
             <li class="nav-item">
               <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
             </li>
+            <div class="post_search">
+              <%= form_with url: admin_articles_path, method: :get, local: true do |f| %>
+                <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
+                <%= f.button :type => "submit" do %>
+                  <i class="fas fa-search"></i>
+                <% end %>
+              <% end %>
+            </div>
             <% else %>
             <li>
               <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, method: :post , class: 'nav-link text-dark' %>

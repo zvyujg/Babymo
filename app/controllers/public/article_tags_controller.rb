@@ -8,5 +8,5 @@ class Public::ArticleTagsController < ApplicationControlle
     end
     # 同じタグを２回保存するのは出来ないようになる
     add_index :article_tags, [:post_id, :tag_id], unique: true
-  end
+    end
 end

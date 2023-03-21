@@ -22,10 +22,12 @@
   get 'articles/index'
   get 'articles/:id/edit' => 'articles#edit', as: 'edit_article'
   
+  
  
   
   scope module: :public do
     resources :articles do
+      get :search, on: :collection
       resources :comments, only: [:create, :destroy]
       resource :favorites, only: [:create, :destroy]
     end

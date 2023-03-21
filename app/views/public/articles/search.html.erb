@@ -1,0 +1,2 @@
+Article.where(['shop_name LIKE ? OR nearest LIKE ?',
+            "%#{params[:search]}%", "%#{params[:search]}%"])

@@ -22,6 +22,20 @@ class Public::UsersController < ApplicationController
      @user = User.find(params[:id])
   end
   
+  def create
+    @user = User.new(user_params)
+    @user.user_id=current_user.id
+    # 受け取った値を,で区切って配列にする
+    tag_user=params[:post][:name].split(',')
+    if @user.save
+      @user.save_tag(tag_user)
+      redirect_to posts_path(@user),notice:'投稿完了しました:)'
+    else
+      render:new
+    end
+  end
+  
+  
   def update
     @user = User.find(params[:id])
     @user.update(user_params)

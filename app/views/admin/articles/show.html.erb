@@ -22,9 +22,3 @@
     <%= comment.created_at.strftime('%Y/%m/%d') %><%= comment.content %>
   <% end %>
 </div>
-<div>
-  <%= form_with model: [@article, @comment], url: article_comments_path(article_id: @article.id), method: :post do |f| %>
-    <%= f.text_area :content, rows: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信する" %>
-  <% end %>
-</div>

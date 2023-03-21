@@ -1,0 +1,56 @@
+<div class="container">
+<section class="sct-color-1 slice">
+  <div class="container-fluid masonry-container">
+    <div class="row">
+      <div class="col-md-8 col-sm-offset-2">
+        <div class="masonry-wrapper-cols">
+          <div class="masonry-gutter"></div>
+          <h1>投稿一覧</h1>
+            <% @articles.each do |article| %>
+            <div class="masonry-block">
+              <div class="block block-image v1">
+                <div class="block-image">
+                  <h2>タイトル</h2>
+                  <span><%= article.title %></span>
+                  <h3>画像</h3>
+                    <% article.images.each do |image| %>
+                      <%= image_tag image, class: 'img-fluid' %>
+                    <% end %>
+                </div>
+                <div class="block-content">
+                  
+                  <%= image_tag article.user.get_profile_image(100, 100) %>
+                  <%#= attachment_image_tag article.user, :profile_image, size: "100x100", fallback: "no_image.jpg", class:"img-circle pull-left profile-thumb" %>
+                  <h3 class="block-title">
+                      <%= article.user.name %>
+                  </h3>
+                  <ul class="inline-meta">
+                    <!--<li>By-->
+                      <%#= article.user.name %>
+                    <!--</li>-->
+                    <%# binding.pry %>
+                    <li>
+                      <%= link_to "#{article.comments.count} コメント", article_path(article.id) %>
+                    </li>
+              
+                      <li>
+                        
+                          <i class="fa fa-heart" aria-hidden="true" style="color: orange; font-size: 15px;"></i>
+                          <%= article.favorites.count %> いいね
+                       
+                      </li>
+                    
+                      <%= link_to "削除", admin_article_path(article.id), method: :delete %>
+                      
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <% end %>
+            <%= paginate @articles, class: "paginate" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>

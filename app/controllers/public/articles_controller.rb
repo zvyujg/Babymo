@@ -1,15 +1,29 @@
 class Public::ArticlesController < ApplicationController
    
-  # before_action :authenticate_public_user!
-  # before_action :posted_user!, only: [:edit, :update, :destroy]
-  # impressionist :actions => [:show]
-
   def index
     @articles = Article.all.page(params[:page]).per(10)
+    if params[:tag_ids]
+      @articles = []
+      params[:tag_ids].each do |key, value|      
+        @articles += Tag.find_by(name: key).articles if value == "1"
+      end
+      @articles.uniq!
+    end
   end
   
   def new
     @article = Article.new
+  end
+  
+  def search
+  @section_title = "「#{params[:search]}」の検索結果"
+  @articles = if params[:search].present?
+   Post.where(['shop_name LIKE ? OR nearest LIKE ?',
+              "%#{params[:search]}%", "%#{params[:search]}%"])
+       .paginate(page: params[:page], per_page: 12).recent
+  else
+   Post.none
+  end
   end
 
   def show
@@ -43,13 +57,8 @@ class Public::ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:user_id, :title, :content, :rate, :speed, :accent, images: [])
+    params.require(:article).permit(:user_id, :title, :content, :rate, :speed, :accent, tag_ids: [], images: [])
   end
 
-  # def posted_user!
-  #   article = Article.find(params[:id])
-  #   unless current_public_user.id == article.user_id
-  #     redirect_to root_path
-  #   end
-  # end
+  
 end
