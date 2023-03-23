@@ -8,7 +8,7 @@
     <%= link_to "プロフィールを編集", edit_user_path %></p>
   <% end %>
   <% if signed_in? && current_user != @user %>
-    <% if current_user.following?(@user) %>
+    <% if current_user.present? && current_user.following?(@user) %>
       <%= link_to "フォロー外す", user_relation_path(@user.id), method: :delete %>
     <% else %>
       <%= link_to "フォローする", user_relations_path(@user.id), method: :post %>
@@ -29,6 +29,10 @@
   <% if @user == current_user %>
     <%= link_to "投稿する", new_article_path %></p>
     
+  <% end %>
+  
+  <% if current_admin.present? %>
+    <div><%= link_to "退会", withdraw_path, method: :patch, data: { confilm: "本当に退会しますか？" } %></div>
   <% end %>
   </div>
 </div>

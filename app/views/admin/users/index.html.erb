@@ -1,12 +1,12 @@
 <div class="container">
 <h1>ユーザー一覧</h1>
-<%= form_with url: search_users_path, method: :get, local: true do |f| %>
+<%= form_with url: admin_users_path, method: :get, local: true do |f| %>
   <%= f.text_field :search %>
   <%= f.submit "検索", name: nil %>
 <% end %>
 <% @users.each do |user| %>
   <%= image_tag user.get_profile_image(100, 100) %>
-  <%= link_to user.name, user_path(user.id) %>
+  <%= link_to user.name, admin_user_path(user.id) %>
   <% if admin_signed_in? %>
     <% if user.is_deleted == false %>
       有効

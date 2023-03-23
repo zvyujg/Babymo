@@ -16,14 +16,16 @@ class Public::ArticlesController < ApplicationController
   end
   
   def search
-  @section_title = "「#{params[:search]}」の検索結果"
-  @articles = if params[:search].present?
-   Post.where(['shop_name LIKE ? OR nearest LIKE ?',
-              "%#{params[:search]}%", "%#{params[:search]}%"])
-       .paginate(page: params[:page], per_page: 12).recent
-  else
-   Post.none
-  end
+    @articles = if params[:search].present?
+     Article.where(['title LIKE ? OR content LIKE ?',
+                "%#{params[:search]}%", "%#{params[:search]}%"])
+         #.paginate(page: params[:page], per_page: 12).recent
+    else
+     Article.none
+    end
+    pp '$$$$$$$$$$$$'
+    pp @articles
+    render 'index'
   end
 
   def show

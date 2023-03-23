@@ -22,27 +22,28 @@
   get 'articles/index'
   get 'articles/:id/edit' => 'articles#edit', as: 'edit_article'
   
-  
- 
-  
   scope module: :public do
     resources :articles do
       get :search, on: :collection
       resources :comments, only: [:create, :destroy]
       resource :favorites, only: [:create, :destroy]
     end
+    resources :favorites, only: [:index]
     resources :questions, only: [:new, :create, :index, :show, :edit, :update, :destroy] do
        resources :question_comments, only: [:create, :destroy]
     end
     resources :follows, only: [:index, :followers, :followings]
     resources :users, only: [:index, :show, :edit, :update, :unsubscribe] do
-    resources :relations, only: [:create, :destroy]
-      get 'followings' => 'relations#followings', as: 'followings'
-      get 'followers' => 'relations#followers', as: 'followers'
-      member do
-        get :favorites
-      end  
-     
+      get :search, on: :collection
+  
+      resources :relations, only: [:create, :destroy] 
+        get 'followings' => 'relations#followings', as: 'followings'
+        get 'followers' => 'relations#followers', as: 'followers'
+        
+        # member do
+        #   get :favorites
+        # end  
+      
     end  
     
       # 退会確認画面

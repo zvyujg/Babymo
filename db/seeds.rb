@@ -12,9 +12,9 @@ Admin.create(
 )
 
 Tag.create([
-  { name: 'タグ1' },
-  { name: 'タグ2' },
-  { name: 'タグ3' },
-  { name: 'タグ4' },
-  { name: 'タグ5' }
+  { name: '子育て' },
+  { name: '遊び場所' },
+  { name: '離乳食' },
+  { name: '育児日記' },
+  { name: '育休' }
 ])

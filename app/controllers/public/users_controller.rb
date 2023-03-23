@@ -6,8 +6,9 @@ class Public::UsersController < ApplicationController
   end
   
   def index 
-    @users = User.where(is_deleted: false).where(name: params[:search])
-    
+    @users = User.where(is_deleted: false)
+    # pp "=============="
+    # pp @users
   end
   
   def show
@@ -20,6 +21,19 @@ class Public::UsersController < ApplicationController
   
   def edit
      @user = User.find(params[:id])
+  end
+  
+  def search
+    @users = if params[:search].present?
+              User.where('name LIKE ?',
+                        "%#{params[:search]}%")
+                 #.paginate(page: params[:page], per_page: 12).recent
+             else
+              User.none
+             end
+    pp "=============="
+    pp @users
+    render 'index'
   end
   
   def create
