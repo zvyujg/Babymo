@@ -58,7 +58,7 @@
     scope module: :admins do
       devise_for :admins
     end
-    root 'users#top'
+    root 'users#index'
     resources :users, only: [:index, :show, :update, :destroy]
     resources :articles, only: [:index, :show, :update, :destroy]
     resources :comments, only: [:index, :update, :destroy]

@@ -4,7 +4,12 @@ class Admin::UsersController < ApplicationController
     end
     
     def index
-        @users = User.where(is_deleted: false).where(name: params[:search])
+        search_word = params[:search]
+        if search_word.present?
+            @users = User.where(is_deleted: false).where(name: params[:search])
+        else
+            @users = User.where(is_deleted: false)    
+        end
     end
     
     def show

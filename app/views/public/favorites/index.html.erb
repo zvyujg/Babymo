@@ -1,3 +1,4 @@
+<div class="container ">
 <h1>いいね一覧</h1>
   <% @favorites.each do |favorite| %>
     <h2>タイトル</h2>
@@ -6,8 +7,9 @@
     </span>
     <h3>画像</h3>
       <% favorite.article.images.each do |image| %>
-       <%= image_tag image, class: 'img-fluid' %>
+       <%= image_tag image, class: 'img-fluid', width: '50%', height: '50%' %>
       <% end %>
+      <div class="block-content">
       <%= image_tag favorite.article.user.get_profile_image(100, 100) %>
     <h3 class="block-title">
       <%= favorite.article.user.name %>
@@ -18,3 +20,5 @@
       </li>
     </ul>
   <% end %>
+       </div>
+  </div>

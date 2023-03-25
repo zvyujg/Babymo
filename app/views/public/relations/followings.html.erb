@@ -1,7 +1,9 @@
+<div class="container">
 <h1>フォロー一覧</h1>
 <% @users.each do |user| %>
   <%= link_to user_path(user) do %>
     <%= user.name %>
-    <%= image_tag user.get_profile_image %>
+    <%= image_tag user.get_profile_image(100,100) %>
   <% end %>
 <% end %>
+</div>

@@ -7,8 +7,6 @@ class Public::UsersController < ApplicationController
   
   def index 
     @users = User.where(is_deleted: false)
-    # pp "=============="
-    # pp @users
   end
   
   def show
@@ -26,7 +24,7 @@ class Public::UsersController < ApplicationController
   def search
     @users = if params[:search].present?
               User.where('name LIKE ?',
-                        "%#{params[:search]}%")
+                        "%#{params[:search]}%").where(is_deleted: false)
                  #.paginate(page: params[:page], per_page: 12).recent
              else
               User.none
@@ -69,7 +67,7 @@ class Public::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :image, :language, :level, :introduction, :profile, :profile_image)
+    params.require(:user).permit(:name, :email, :image, :language, :level, :introduction, :profile)
   end
 
   def correct_user!

@@ -1,4 +1,6 @@
 class Public::CommentsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :correct_user!, only: [:destroy]
   
   def create
     comment = current_user.comments.new(comment_params)
@@ -14,10 +16,10 @@ class Public::CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
     if @comment.destroy
       @comment_id = @comment.reply_to
       @reply_count = Comment.where(reply_to: @comment_id).count
+      redirect_to article_path(@comment.article)
     else
       flash.now[:warning] = '削除に失敗しました'
       redirect_to request.referer
@@ -28,5 +30,10 @@ class Public::CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:content, :reply_to)
+  end
+  
+  def correct_user!
+    @comment = current_user.comments.find_by(id: params[:id])
+    redirect_to root_path unless @comment
   end
 end

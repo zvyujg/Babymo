@@ -1,53 +1,51 @@
-<div class="container">
-<section class="sct-color-1 slice">
-  <div class="container-fluid masonry-container">
-    <div class="row">
-      <div class="col-md-8 col-sm-offset-2">
-        <div class="masonry-wrapper-cols">
-          <div class="masonry-gutter"></div>
-          <h1>投稿一覧</h1>
-            <% @articles.each do |article| %>
-            <div class="masonry-block">
-              <div class="block block-image v1">
-                <div class="block-image">
-                  <h2>タイトル</h2>
+<div class="container ">
+<section>
+  <div class="container-fluid">
+    <h1>投稿一覧</h1>
+     <div class="d-flex flex-row">
+           <% @articles.each do |article| %>
+     <div class="row col-4">
+           <div>
+            　<div>
+                <h2 class="card-title">タイトル</h2>
                   <span><%= article.title %></span>
-                  <h3>画像</h3>
-                    <% article.images.each do |image| %>
-                      <%= image_tag image, class: 'img-fluid' %>
-                    <% end %>
-                </div>
-                <div class="block-content">
-                  
+                <h3>
+                  <% article.images.each do |image| %>
+                  　<%= image_tag image, class: 'img-fluid w-100', width: '50%', height: '50%' %>
+                  <% end %></h3>
+              </div>
+              <div class="block-content">
+                <div class="d-flex flex-row align-items-center">
+                <div>
+                  <!-- <div class="col-4"> -->
                   <%= image_tag article.user.get_profile_image(100, 100) %>
-                  <%#= attachment_image_tag article.user, :profile_image, size: "100x100", fallback: "no_image.jpg", class:"img-circle pull-left profile-thumb" %>
-                  <h3 class="block-title">
-                      <%= article.user.name %>
-                  </h3>
-                  <ul class="inline-meta">
-                    <!--<li>By-->
-                      <%#= article.user.name %>
-                    <!--</li>-->
-                    <%# binding.pry %>
-                    <li>
-                      <%= link_to "#{article.comments.count} コメント", article_path(article.id) %>
-                    </li>
-                    <% if article.favorited?(current_user) %>
-                      <li>
-                        <%= link_to article_favorites_path(article), method: :delete do %>
-                          <i class="fa fa-heart" aria-hidden="true" style="color: orange; font-size: 15px;"></i>
-                          <%= article.favorites.count %> いいね
-                        <% end %>
-                      </li>
-                    <% else %>
-                      <li>
-                        <%= link_to article_favorites_path(article), method: :post do %>
-                          <i class="fa fa-heart" aria-hidden="true" style="font-size: 15px;"></i>
-                          <%= article.favorites.count %> いいね
-                        <% end %>
-                      </li>
-                      
+                  <!-- </div> -->
+                </div>
+              <div class="col-8">
+                <h3 class="block-title ml-5">
+                  <%= article.user.name %>
+                </h3>
+                </div>
+              </div>
+                <ul class="inline-meta">
+                  <li>
+                    <%= link_to "#{article.comments.count} コメント", article_path(article.id) %>
+                  </li>
+                  <% if article.favorited?(current_user) %>
+                  <li>
+                    <%= link_to article_favorites_path(article), method: :delete do %>
+                      <i class="fa fa-heart" aria-hidden="true" style="color: orange; font-size: 15px;"></i>
+                        <%= article.favorites.count %> いいね
                     <% end %>
+                  </li>
+                  <% else %>
+                  <li>
+                    <%= link_to article_favorites_path(article), method: :post do %>
+                      <i class="fa fa-heart" aria-hidden="true" style="font-size: 15px;"></i>
+                      　<%= article.favorites.count %> いいね
+                    <% end %>
+                  </li>
+                  <% end %>
                     <% if article.user_id == current_user.id %>
                        <%= link_to "編集", article_path(article.id) %>
                     <% end %>　　　
@@ -55,14 +53,12 @@
                        <%= link_to "削除", article_path(article.id), method: :delete %>
                       <% end %>
                   </ul>
-                </div>
-              </div>
             </div>
-            <% end %>
-            <%#= paginate @articles, class: "paginate" %>
-        </div>
-      </div>
-    </div>
+            </div>
+   　</div>
+           <% end %>
+ </div>
+ <%#= paginate @articles, class: "paginate" %>
   </div>
 </section>
 </div>
