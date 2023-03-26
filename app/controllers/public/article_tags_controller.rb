@@ -1,4 +1,4 @@
-class Public::ArticleTagsController < ApplicationControlle
+class Public::ArticleTagsController < ApplicationController
     def change
     create_table :article_tags do |t|
       t.references :post, foreign_key: true
